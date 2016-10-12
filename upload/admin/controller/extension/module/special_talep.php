@@ -3,7 +3,7 @@ class ControllerExtensionModuleSpecial extends Controller {
 	private $error = array();
 
 	public function index() {
-		$this->load->language('extension/module/special');
+		$this->load->language('extension/module/special_talep');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
