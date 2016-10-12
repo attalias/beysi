@@ -11,7 +11,7 @@ class ControllerCatalogProduct extends Controller {
 
 		$this->getList();
 	}
-// Product-clone
+// Product-clonee
 	public function add() {
 		$this->load->language('catalog/product');
 
