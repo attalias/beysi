@@ -3,7 +3,7 @@ class ControllerExtensionModuleLatest extends Controller {
 	private $error = array();
 
 	public function index() {
-		$this->load->language('extension/module/latest');
+		$this->load->language('extension/module/latest_talep');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
