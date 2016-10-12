@@ -11,12 +11,12 @@ class ControllerExtensionModuleLatest extends Controller {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			if (!isset($this->request->get['module_id'])) {
-				$this->model_extension_module->addModule('latest', $this->request->post);
+				$this->model_extension_module->addModule('latest_talep', $this->request->post);
 			} else {
 				$this->model_extension_module->editModule($this->request->get['module_id'], $this->request->post);
 			}
 
-			$this->cache->delete('product');
+			$this->cache->delete('talep');
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -77,19 +77,19 @@ class ControllerExtensionModuleLatest extends Controller {
 		if (!isset($this->request->get['module_id'])) {
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('extension/module/latest', 'token=' . $this->session->data['token'], true)
+				'href' => $this->url->link('extension/module/latest_talep', 'token=' . $this->session->data['token'], true)
 			);
 		} else {
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('extension/module/latest', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], true)
+				'href' => $this->url->link('extension/module/latest_talep', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], true)
 			);
 		}
 
 		if (!isset($this->request->get['module_id'])) {
-			$data['action'] = $this->url->link('extension/module/latest', 'token=' . $this->session->data['token'], true);
+			$data['action'] = $this->url->link('extension/module/latest_talep', 'token=' . $this->session->data['token'], true);
 		} else {
-			$data['action'] = $this->url->link('extension/module/latest', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], true);
+			$data['action'] = $this->url->link('extension/module/latest_talep', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], true);
 		}
 
 		$data['cancel'] = $this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=module', true);
@@ -142,11 +142,11 @@ class ControllerExtensionModuleLatest extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('extension/module/latest', $data));
+		$this->response->setOutput($this->load->view('extension/module/latest_talep', $data));
 	}
 
 	protected function validate() {
-		if (!$this->user->hasPermission('modify', 'extension/module/latest')) {
+		if (!$this->user->hasPermission('modify', 'extension/module/latest_talep')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
