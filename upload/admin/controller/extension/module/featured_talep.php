@@ -3,7 +3,7 @@ class ControllerExtensionModuleFeatured extends Controller {
 	private $error = array();
 
 	public function index() {
-		$this->load->language('extension/module/featured');
+		$this->load->language('extension/module/featured_talep');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
