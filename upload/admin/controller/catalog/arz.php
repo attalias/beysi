@@ -11,7 +11,7 @@ class ControllerCatalogManufacturer extends Controller {
 
 		$this->getList();
 	}
-// Manufacturer-clone
+// Manufacturer-clonee
 	public function add() {
 		$this->load->language('catalog/manufacturer');
 
