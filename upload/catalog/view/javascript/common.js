@@ -119,6 +119,44 @@ $(document).ready(function() {
 		$('#grid-view').addClass('active');
 	}
 
+	// Talep List
+	$('#list-view').click(function() {
+		$('#content .talep-grid > .clearfix').remove();
+
+		$('#content .row > .talep-grid').attr('class', 'talep-layout talep-list col-xs-12');
+		$('#grid-view').removeClass('active');
+		$('#list-view').addClass('active');
+
+		localStorage.setItem('display', 'list');
+	});
+
+	// Talep Grid
+	$('#grid-view').click(function() {
+		// What a shame bootstrap does not take into account dynamically loaded columns
+		var cols = $('#column-right, #column-left').length;
+
+		if (cols == 2) {
+			$('#content .talep-list').attr('class', 'talep-layout talep-grid col-lg-6 col-md-6 col-sm-12 col-xs-12');
+		} else if (cols == 1) {
+			$('#content .talep-list').attr('class', 'talep-layout talep-grid col-lg-4 col-md-4 col-sm-6 col-xs-12');
+		} else {
+			$('#content .talep-list').attr('class', 'talep-layout talep-grid col-lg-3 col-md-3 col-sm-6 col-xs-12');
+		}
+
+		$('#list-view').removeClass('active');
+		$('#grid-view').addClass('active');
+
+		localStorage.setItem('display', 'grid');
+	});
+
+	if (localStorage.getItem('display') == 'list') {
+		$('#list-view').trigger('click');
+		$('#list-view').addClass('active');
+	} else {
+		$('#grid-view').trigger('click');
+		$('#grid-view').addClass('active');
+	}
+	
 	// Checkout
 	$(document).on('keydown', '#collapse-checkout-option input[name=\'email\'], #collapse-checkout-option input[name=\'password\']', function(e) {
 		if (e.keyCode == 13) {
