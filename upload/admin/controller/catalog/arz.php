@@ -1,26 +1,26 @@
 <?php
-class ControllerCatalogManufacturer extends Controller {
+class ControllerCatalogArz extends Controller {
 	private $error = array();
 
 	public function index() {
-		$this->load->language('catalog/manufacturer');
+		$this->load->language('catalog/arz');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('catalog/manufacturer');
+		$this->load->model('catalog/arz');
 
 		$this->getList();
 	}
 // Manufacturer-clonee
 	public function add() {
-		$this->load->language('catalog/manufacturer');
+		$this->load->language('catalog/arz');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('catalog/manufacturer');
+		$this->load->model('catalog/arz');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_catalog_manufacturer->addManufacturer($this->request->post);
+			$this->model_catalog_arz->addArz($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -38,21 +38,21 @@ class ControllerCatalogManufacturer extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('catalog/manufacturer', 'token=' . $this->session->data['token'] . $url, true));
+			$this->response->redirect($this->url->link('catalog/arz', 'token=' . $this->session->data['token'] . $url, true));
 		}
 
 		$this->getForm();
 	}
 
 	public function edit() {
-		$this->load->language('catalog/manufacturer');
+		$this->load->language('catalog/arz');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('catalog/manufacturer');
+		$this->load->model('catalog/arz');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_catalog_manufacturer->editManufacturer($this->request->get['manufacturer_id'], $this->request->post);
+			$this->model_catalog_arz->editArz($this->request->get['arz_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -70,22 +70,22 @@ class ControllerCatalogManufacturer extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('catalog/manufacturer', 'token=' . $this->session->data['token'] . $url, true));
+			$this->response->redirect($this->url->link('catalog/arz', 'token=' . $this->session->data['token'] . $url, true));
 		}
 
 		$this->getForm();
 	}
 
 	public function delete() {
-		$this->load->language('catalog/manufacturer');
+		$this->load->language('catalog/arz');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('catalog/manufacturer');
+		$this->load->model('catalog/arz');
 
 		if (isset($this->request->post['selected']) && $this->validateDelete()) {
-			foreach ($this->request->post['selected'] as $manufacturer_id) {
-				$this->model_catalog_manufacturer->deleteManufacturer($manufacturer_id);
+			foreach ($this->request->post['selected'] as $arz_id) {
+				$this->model_catalog_arz->deleteArz($arz_id);
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -104,7 +104,7 @@ class ControllerCatalogManufacturer extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('catalog/manufacturer', 'token=' . $this->session->data['token'] . $url, true));
+			$this->response->redirect($this->url->link('catalog/arz', 'token=' . $this->session->data['token'] . $url, true));
 		}
 
 		$this->getList();
@@ -152,13 +152,13 @@ class ControllerCatalogManufacturer extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('catalog/manufacturer', 'token=' . $this->session->data['token'] . $url, true)
+			'href' => $this->url->link('catalog/arz', 'token=' . $this->session->data['token'] . $url, true)
 		);
 
-		$data['add'] = $this->url->link('catalog/manufacturer/add', 'token=' . $this->session->data['token'] . $url, true);
-		$data['delete'] = $this->url->link('catalog/manufacturer/delete', 'token=' . $this->session->data['token'] . $url, true);
+		$data['add'] = $this->url->link('catalog/arz/add', 'token=' . $this->session->data['token'] . $url, true);
+		$data['delete'] = $this->url->link('catalog/arz/delete', 'token=' . $this->session->data['token'] . $url, true);
 
-		$data['manufacturers'] = array();
+		$data['arzs'] = array();
 
 		$filter_data = array(
 			'sort'  => $sort,
@@ -167,16 +167,16 @@ class ControllerCatalogManufacturer extends Controller {
 			'limit' => $this->config->get('config_limit_admin')
 		);
 
-		$manufacturer_total = $this->model_catalog_manufacturer->getTotalManufacturers();
+		$arz_total = $this->model_catalog_arz->getTotalArzs();
 
-		$results = $this->model_catalog_manufacturer->getManufacturers($filter_data);
+		$results = $this->model_catalog_arz->getArzs($filter_data);
 
 		foreach ($results as $result) {
-			$data['manufacturers'][] = array(
-				'manufacturer_id' => $result['manufacturer_id'],
+			$data['arzs'][] = array(
+				'arz_id' => $result['arz_id'],
 				'name'            => $result['name'],
 				'sort_order'      => $result['sort_order'],
-				'edit'            => $this->url->link('catalog/manufacturer/edit', 'token=' . $this->session->data['token'] . '&manufacturer_id=' . $result['manufacturer_id'] . $url, true)
+				'edit'            => $this->url->link('catalog/arz/edit', 'token=' . $this->session->data['token'] . '&arz_id=' . $result['arz_id'] . $url, true)
 			);
 		}
 
@@ -226,8 +226,8 @@ class ControllerCatalogManufacturer extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
-		$data['sort_name'] = $this->url->link('catalog/manufacturer', 'token=' . $this->session->data['token'] . '&sort=name' . $url, true);
-		$data['sort_sort_order'] = $this->url->link('catalog/manufacturer', 'token=' . $this->session->data['token'] . '&sort=sort_order' . $url, true);
+		$data['sort_name'] = $this->url->link('catalog/arz', 'token=' . $this->session->data['token'] . '&sort=name' . $url, true);
+		$data['sort_sort_order'] = $this->url->link('catalog/arz', 'token=' . $this->session->data['token'] . '&sort=sort_order' . $url, true);
 
 		$url = '';
 
@@ -240,14 +240,14 @@ class ControllerCatalogManufacturer extends Controller {
 		}
 
 		$pagination = new Pagination();
-		$pagination->total = $manufacturer_total;
+		$pagination->total = $arz_total;
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_limit_admin');
-		$pagination->url = $this->url->link('catalog/manufacturer', 'token=' . $this->session->data['token'] . $url . '&page={page}', true);
+		$pagination->url = $this->url->link('catalog/arz', 'token=' . $this->session->data['token'] . $url . '&page={page}', true);
 
 		$data['pagination'] = $pagination->render();
 
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($manufacturer_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($manufacturer_total - $this->config->get('config_limit_admin'))) ? $manufacturer_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $manufacturer_total, ceil($manufacturer_total / $this->config->get('config_limit_admin')));
+		$data['results'] = sprintf($this->language->get('text_pagination'), ($arz_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($arz_total - $this->config->get('config_limit_admin'))) ? $arz_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $arz_total, ceil($arz_total / $this->config->get('config_limit_admin')));
 
 		$data['sort'] = $sort;
 		$data['order'] = $order;
@@ -256,7 +256,7 @@ class ControllerCatalogManufacturer extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('catalog/manufacturer_list', $data));
+		$this->response->setOutput($this->load->view('catalog/arz_list', $data));
 	}
 
 	protected function getForm() {
@@ -325,16 +325,16 @@ class ControllerCatalogManufacturer extends Controller {
 			'href' => $this->url->link('catalog/manufacturer', 'token=' . $this->session->data['token'] . $url, true)
 		);
 
-		if (!isset($this->request->get['manufacturer_id'])) {
-			$data['action'] = $this->url->link('catalog/manufacturer/add', 'token=' . $this->session->data['token'] . $url, true);
+		if (!isset($this->request->get['arz_id'])) {
+			$data['action'] = $this->url->link('catalog/arz/add', 'token=' . $this->session->data['token'] . $url, true);
 		} else {
-			$data['action'] = $this->url->link('catalog/manufacturer/edit', 'token=' . $this->session->data['token'] . '&manufacturer_id=' . $this->request->get['manufacturer_id'] . $url, true);
+			$data['action'] = $this->url->link('catalog/arz/edit', 'token=' . $this->session->data['token'] . '&arz_id=' . $this->request->get['arz_id'] . $url, true);
 		}
 
-		$data['cancel'] = $this->url->link('catalog/manufacturer', 'token=' . $this->session->data['token'] . $url, true);
+		$data['cancel'] = $this->url->link('catalog/arz', 'token=' . $this->session->data['token'] . $url, true);
 
-		if (isset($this->request->get['manufacturer_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($this->request->get['manufacturer_id']);
+		if (isset($this->request->get['arz_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			$arz_info = $this->model_catalog_arz->getArz($this->request->get['arz_id']);
 		}
 
 		$data['token'] = $this->session->data['token'];
@@ -342,7 +342,7 @@ class ControllerCatalogManufacturer extends Controller {
 		if (isset($this->request->post['name'])) {
 			$data['name'] = $this->request->post['name'];
 		} elseif (!empty($manufacturer_info)) {
-			$data['name'] = $manufacturer_info['name'];
+			$data['name'] = $arz_info['name'];
 		} else {
 			$data['name'] = '';
 		}
@@ -351,18 +351,18 @@ class ControllerCatalogManufacturer extends Controller {
 
 		$data['stores'] = $this->model_setting_store->getStores();
 
-		if (isset($this->request->post['manufacturer_store'])) {
-			$data['manufacturer_store'] = $this->request->post['manufacturer_store'];
-		} elseif (isset($this->request->get['manufacturer_id'])) {
-			$data['manufacturer_store'] = $this->model_catalog_manufacturer->getManufacturerStores($this->request->get['manufacturer_id']);
+		if (isset($this->request->post['arz_store'])) {
+			$data['arz_store'] = $this->request->post['arz_store'];
+		} elseif (isset($this->request->get['arz_id'])) {
+			$data['arz_store'] = $this->model_catalog_arz->getArzStores($this->request->get['arz_id']);
 		} else {
-			$data['manufacturer_store'] = array(0);
+			$data['arz_store'] = array(0);
 		}
 
 		if (isset($this->request->post['keyword'])) {
 			$data['keyword'] = $this->request->post['keyword'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['keyword'] = $manufacturer_info['keyword'];
+		} elseif (!empty($arz_info)) {
+			$data['keyword'] = $arz_info['keyword'];
 		} else {
 			$data['keyword'] = '';
 		}
@@ -370,7 +370,7 @@ class ControllerCatalogManufacturer extends Controller {
 		if (isset($this->request->post['image'])) {
 			$data['image'] = $this->request->post['image'];
 		} elseif (!empty($manufacturer_info)) {
-			$data['image'] = $manufacturer_info['image'];
+			$data['image'] = $arz_info['image'];
 		} else {
 			$data['image'] = '';
 		}
@@ -379,8 +379,8 @@ class ControllerCatalogManufacturer extends Controller {
 
 		if (isset($this->request->post['image']) && is_file(DIR_IMAGE . $this->request->post['image'])) {
 			$data['thumb'] = $this->model_tool_image->resize($this->request->post['image'], 100, 100);
-		} elseif (!empty($manufacturer_info) && is_file(DIR_IMAGE . $manufacturer_info['image'])) {
-			$data['thumb'] = $this->model_tool_image->resize($manufacturer_info['image'], 100, 100);
+		} elseif (!empty($arz_info) && is_file(DIR_IMAGE . $arz_info['image'])) {
+			$data['thumb'] = $this->model_tool_image->resize($arz_info['image'], 100, 100);
 		} else {
 			$data['thumb'] = $this->model_tool_image->resize('no_image.png', 100, 100);
 		}
@@ -389,8 +389,8 @@ class ControllerCatalogManufacturer extends Controller {
 
 		if (isset($this->request->post['sort_order'])) {
 			$data['sort_order'] = $this->request->post['sort_order'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['sort_order'] = $manufacturer_info['sort_order'];
+		} elseif (!empty($arz_info)) {
+			$data['sort_order'] = $arz_info['sort_order'];
 		} else {
 			$data['sort_order'] = '';
 		}
@@ -399,11 +399,11 @@ class ControllerCatalogManufacturer extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('catalog/manufacturer_form', $data));
+		$this->response->setOutput($this->load->view('catalog/arz_form', $data));
 	}
 
 	protected function validateForm() {
-		if (!$this->user->hasPermission('modify', 'catalog/manufacturer')) {
+		if (!$this->user->hasPermission('modify', 'catalog/arz')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
@@ -416,11 +416,11 @@ class ControllerCatalogManufacturer extends Controller {
 
 			$url_alias_info = $this->model_catalog_url_alias->getUrlAlias($this->request->post['keyword']);
 
-			if ($url_alias_info && isset($this->request->get['manufacturer_id']) && $url_alias_info['query'] != 'manufacturer_id=' . $this->request->get['manufacturer_id']) {
+			if ($url_alias_info && isset($this->request->get['arz_id']) && $url_alias_info['query'] != 'arz_id=' . $this->request->get['arz_id']) {
 				$this->error['keyword'] = sprintf($this->language->get('error_keyword'));
 			}
 
-			if ($url_alias_info && !isset($this->request->get['manufacturer_id'])) {
+			if ($url_alias_info && !isset($this->request->get['arz_id'])) {
 				$this->error['keyword'] = sprintf($this->language->get('error_keyword'));
 			}
 		}
@@ -429,14 +429,14 @@ class ControllerCatalogManufacturer extends Controller {
 	}
 
 	protected function validateDelete() {
-		if (!$this->user->hasPermission('modify', 'catalog/manufacturer')) {
+		if (!$this->user->hasPermission('modify', 'catalog/arz')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
 		$this->load->model('catalog/product');
 
-		foreach ($this->request->post['selected'] as $manufacturer_id) {
-			$product_total = $this->model_catalog_product->getTotalProductsByManufacturerId($manufacturer_id);
+		foreach ($this->request->post['selected'] as $arz_id) {
+			$product_total = $this->model_catalog_product->getTotalProductsByArzId($arz_id);
 
 			if ($product_total) {
 				$this->error['warning'] = sprintf($this->language->get('error_product'), $product_total);
@@ -450,7 +450,7 @@ class ControllerCatalogManufacturer extends Controller {
 		$json = array();
 
 		if (isset($this->request->get['filter_name'])) {
-			$this->load->model('catalog/manufacturer');
+			$this->load->model('catalog/arz');
 
 			$filter_data = array(
 				'filter_name' => $this->request->get['filter_name'],
@@ -458,11 +458,11 @@ class ControllerCatalogManufacturer extends Controller {
 				'limit'       => 5
 			);
 
-			$results = $this->model_catalog_manufacturer->getManufacturers($filter_data);
+			$results = $this->model_catalog_arz->getArzs($filter_data);
 
 			foreach ($results as $result) {
 				$json[] = array(
-					'manufacturer_id' => $result['manufacturer_id'],
+					'arz_id' => $result['arz_id'],
 					'name'            => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
 				);
 			}
