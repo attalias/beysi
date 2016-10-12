@@ -1,5 +1,5 @@
 <?php
-class ControllerExtensionModuleFeatured extends Controller {
+class ControllerExtensionModuleFeatured_talep extends Controller {
 	private $error = array();
 
 	public function index() {
@@ -11,7 +11,7 @@ class ControllerExtensionModuleFeatured extends Controller {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			if (!isset($this->request->get['module_id'])) {
-				$this->model_extension_module->addModule('featured', $this->request->post);
+				$this->model_extension_module->addModule('featured_talep', $this->request->post);
 			} else {
 				$this->model_extension_module->editModule($this->request->get['module_id'], $this->request->post);
 			}
@@ -28,13 +28,13 @@ class ControllerExtensionModuleFeatured extends Controller {
 		$data['text_disabled'] = $this->language->get('text_disabled');
 
 		$data['entry_name'] = $this->language->get('entry_name');
-		$data['entry_product'] = $this->language->get('entry_product');
+		$data['entry_talep'] = $this->language->get('entry_talep');
 		$data['entry_limit'] = $this->language->get('entry_limit');
 		$data['entry_width'] = $this->language->get('entry_width');
 		$data['entry_height'] = $this->language->get('entry_height');
 		$data['entry_status'] = $this->language->get('entry_status');
 
-		$data['help_product'] = $this->language->get('help_product');
+		$data['help_talep'] = $this->language->get('help_talep');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -78,19 +78,19 @@ class ControllerExtensionModuleFeatured extends Controller {
 		if (!isset($this->request->get['module_id'])) {
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('extension/module/featured', 'token=' . $this->session->data['token'], true)
+				'href' => $this->url->link('extension/module/featured_talep', 'token=' . $this->session->data['token'], true)
 			);
 		} else {
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('extension/module/featured', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], true)
+				'href' => $this->url->link('extension/module/featured_talep', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], true)
 			);
 		}
 
 		if (!isset($this->request->get['module_id'])) {
-			$data['action'] = $this->url->link('extension/module/featured', 'token=' . $this->session->data['token'], true);
+			$data['action'] = $this->url->link('extension/module/featured_talep', 'token=' . $this->session->data['token'], true);
 		} else {
-			$data['action'] = $this->url->link('extension/module/featured', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], true);
+			$data['action'] = $this->url->link('extension/module/featured_talep', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], true);
 		}
 
 		$data['cancel'] = $this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=module', true);
@@ -109,25 +109,25 @@ class ControllerExtensionModuleFeatured extends Controller {
 			$data['name'] = '';
 		}
 
-		$this->load->model('catalog/product');
+		$this->load->model('catalog/talep');
 
-		$data['products'] = array();
+		$data['taleps'] = array();
 
-		if (!empty($this->request->post['product'])) {
-			$products = $this->request->post['product'];
-		} elseif (!empty($module_info['product'])) {
-			$products = $module_info['product'];
+		if (!empty($this->request->post['talep'])) {
+			$taleps = $this->request->post['talep'];
+		} elseif (!empty($module_info['talep'])) {
+			$taleps = $module_info['talep'];
 		} else {
-			$products = array();
+			$taleps = array();
 		}
 
-		foreach ($products as $product_id) {
-			$product_info = $this->model_catalog_product->getProduct($product_id);
+		foreach ($taleps as $talep_id) {
+			$talep_info = $this->model_catalog_talep->getTalep($talep_id);
 
-			if ($product_info) {
-				$data['products'][] = array(
-					'product_id' => $product_info['product_id'],
-					'name'       => $product_info['name']
+			if ($talep_info) {
+				$data['taleps'][] = array(
+					'talep_id' => $talep_info['talep_id'],
+					'name'       => $talep_info['name']
 				);
 			}
 		}
@@ -168,11 +168,11 @@ class ControllerExtensionModuleFeatured extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('extension/module/featured', $data));
+		$this->response->setOutput($this->load->view('extension/module/featured_talep', $data));
 	}
 
 	protected function validate() {
-		if (!$this->user->hasPermission('modify', 'extension/module/featured')) {
+		if (!$this->user->hasPermission('modify', 'extension/module/featured_talep')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
